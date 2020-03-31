@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterarchtestapp/home_view_model.dart';
+import 'package:flutterarchtestapp/status.dart';
 import 'package:provider/provider.dart';
 
 void main() => runApp(MyApp());
@@ -10,7 +11,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<HomeViewModel>(
       create: (_) => HomeViewModel(),
-      child:MaterialApp(
+      child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
           primarySwatch: Colors.blue,
@@ -20,7 +21,6 @@ class MyApp extends StatelessWidget {
         ),
       ),
     );
-
   }
 }
 
@@ -39,7 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    _viewModel = Provider.of<HomeViewModel>(context,listen: false);
+    _viewModel = Provider.of<HomeViewModel>(context, listen: false);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _viewModel.getData();
     });
@@ -53,39 +53,23 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-
-            Consumer<HomeViewModel>(builder: (context, _viewModel, child) {
-              return Text('${_viewModel.getStatus().toString()}');
-            })
-
-//              FutureBuilder(
-//                future: _counter.getData(),
-//                builder: (BuildContext context, AsyncSnapshot snapshot) {
-//                  if (snapshot.hasData) {
-//                    return ListView.builder(
-//                      itemCount: snapshot.data.length,
-//                      itemBuilder: (context, index) {
-//                        return ListTile(
-//                            title: Text(snapshot.data[index].title));
-//                      },
-//                    );
-//                  } else if (snapshot.hasError) {
-//                    return Text("${snapshot.error}");
-//                  }
-//                  return Center(
-//                    child: CircularProgressIndicator(),
-//                  );
-//                },
-//              )
-          ],
-        ),
+      body: Container(
+        child: Consumer<HomeViewModel>(builder: (context, _viewModel, child) {
+          if (_viewModel.getStatus() == Status.FAILED) {
+            return Center(child: Text(_viewModel.getErrorMessage()));
+          } else if (_viewModel.getStatus() == Status.SUCCESSFUL) {
+            return ListView.builder(
+              shrinkWrap: true,
+              itemCount: _viewModel.getMovieList().length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                    title: Text(_viewModel.getMovieList()[index].title));
+              },
+            );
+          } else {
+            return Center(child: CircularProgressIndicator());
+          }
+        }),
       ),
     );
   }
