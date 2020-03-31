@@ -38,14 +38,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
-
-    _viewModel = Provider.of<HomeViewModel>(context);
-//    _viewModel.getData();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      //Initial call to start getting quotes after launching app
-//      _viewModel.getData();
-    });
     super.initState();
+    _viewModel = Provider.of<HomeViewModel>(context,listen: false);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _viewModel.getData();
+    });
   }
 
   @override

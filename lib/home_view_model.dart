@@ -34,7 +34,6 @@ class HomeViewModel with ChangeNotifier {
         _status = Status.SUCCESSFUL;
         _movieList =
             MovieList.fromJson(json.decode(response.body)["results"]).movieList;
-        print(_movieList.length);
         notifyListeners();
       } else {
         _status = Status.FAILED;
