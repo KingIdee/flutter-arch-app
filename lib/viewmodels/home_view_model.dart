@@ -1,10 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutterarchtestapp/api.dart';
-import 'package:flutterarchtestapp/status.dart';
+import 'package:flutterarchtestapp/network/api.dart';
+import 'package:flutterarchtestapp/models/status.dart';
 
-import 'movie.dart';
+import '../models/movie.dart';
 
 class HomeViewModel with ChangeNotifier {
   var _api = API(); // Use dependency injection for this ideally;
