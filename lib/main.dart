@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterarchtestapp/home_view_model.dart';
 import 'package:flutterarchtestapp/status.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 void main() => runApp(MyApp());
@@ -9,6 +10,19 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [ChangeNotifierProvider(create: (_) => HomeViewModel())],
+      child: GetMaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: MyHomePage(
+          title: "My Home Page",
+        ),
+      ),
+    );
+
     return ChangeNotifierProvider<HomeViewModel>(
       create: (_) => HomeViewModel(),
       child: MaterialApp(
@@ -63,6 +77,9 @@ class _MyHomePageState extends State<MyHomePage> {
               itemCount: _viewModel.getMovieList().length,
               itemBuilder: (context, index) {
                 return ListTile(
+                    onTap: () {
+                      Get.toNamed("/movie-details");
+                    },
                     title: Text(_viewModel.getMovieList()[index].title));
               },
             );
