@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterarchtestapp/screens/movie_details_page.dart';
 import 'package:flutterarchtestapp/viewmodels/home_view_model.dart';
 import 'package:flutterarchtestapp/models/status.dart';
 import 'package:get/get.dart';
@@ -20,20 +21,11 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         home: MovieListPage(),
+        routes: {
+          '/movie-details': (context) => MovieDetailsPage(),
+        },
       ),
     );
 
-//    return ChangeNotifierProvider<HomeViewModel>(
-//      create: (_) => HomeViewModel(),
-//      child: MaterialApp(
-//        title: 'Flutter Demo',
-//        theme: ThemeData(
-//          primarySwatch: Colors.blue,
-//        ),
-//        home: MyHomePage(
-//          title: "My Home Page",
-//        ),
-//      ),
-//    );
   }
 }
