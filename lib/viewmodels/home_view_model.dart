@@ -26,10 +26,12 @@ class HomeViewModel with ChangeNotifier {
     return _status;
   }
 
-  void getData() {
+  void getData() async {
     _status = Status.LOADING;
     notifyListeners();
-    _api.fetchPopularMovies().then((response) {
+
+    try {
+      var response = await _api.fetchPopularMovies();
       if (response.statusCode >= 200 && response.statusCode < 300) {
         _status = Status.SUCCESSFUL;
         _movieList =
@@ -40,10 +42,10 @@ class HomeViewModel with ChangeNotifier {
         _errorMessage = json.decode(response.body)['message'];
         notifyListeners();
       }
-    }).catchError((error) {
+    } catch (e) {
       _status = Status.FAILED;
       _errorMessage = "An unknown error occurred";
       notifyListeners();
-    });
+    }
   }
 }
