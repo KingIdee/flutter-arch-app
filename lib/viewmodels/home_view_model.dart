@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:html';
 
 import 'package:flutter/material.dart';
 import 'package:flutterarchtestapp/network/api.dart';
@@ -32,7 +33,7 @@ class HomeViewModel with ChangeNotifier {
 
     try {
       var response = await _api.fetchPopularMovies();
-      if (response.statusCode >= 200 && response.statusCode < 300) {
+      if (response.statusCode == HttpStatus.ok) {
         _status = Status.SUCCESSFUL;
         _movieList =
             MovieList.fromJson(json.decode(response.body)["results"]).movieList;
