@@ -1,6 +1,6 @@
 import 'dart:convert';
-import 'dart:html';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterarchtestapp/network/api.dart';
 import 'package:flutterarchtestapp/models/status.dart';
@@ -33,19 +33,19 @@ class HomeViewModel with ChangeNotifier {
 
     try {
       var response = await _api.fetchPopularMovies();
-      if (response.statusCode == HttpStatus.ok) {
+      if (response.statusCode == 200) {
         _status = Status.SUCCESSFUL;
-        _movieList =
-            MovieList.fromJson(json.decode(response.body)["results"]).movieList;
-        notifyListeners();
-      } else {
-        _status = Status.FAILED;
-        _errorMessage = json.decode(response.body)['message'];
+        _movieList = MovieList.fromJson(response.data["results"]).movieList;
         notifyListeners();
       }
-    } catch (e) {
+    } on DioError catch (e) {
+      if (e.response != null) {
+        print("HERE");
+        _errorMessage = e.response.data["status_message"];
+      } else {
+        _errorMessage = "An unknown error occurred";
+      }
       _status = Status.FAILED;
-      _errorMessage = "An unknown error occurred";
       notifyListeners();
     }
   }
