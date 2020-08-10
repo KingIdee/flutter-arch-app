@@ -35,15 +35,14 @@ class HomeViewModel with ChangeNotifier {
       var response = await _api.fetchPopularMovies();
       if (response.statusCode == 200) {
         _status = Status.SUCCESSFUL;
-        _movieList = MovieList.fromJson(response.data["results"]).movieList;
+        _movieList = MovieList.fromJson(response.data['results']).movieList;
         notifyListeners();
       }
     } on DioError catch (e) {
       if (e.response != null) {
-        print("HERE");
-        _errorMessage = e.response.data["status_message"];
+        _errorMessage = e.response.data['status_message'];
       } else {
-        _errorMessage = "An unknown error occurred";
+        _errorMessage = 'An unknown error occurred';
       }
       _status = Status.FAILED;
       notifyListeners();
