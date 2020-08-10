@@ -30,7 +30,7 @@ class _MovieListPageState extends State<MovieListPage> {
     // Consumer<HomeViewModel>(builder: (context, _viewModel, child)
     return Scaffold(
       appBar: AppBar(
-        title: Text("Popular Movies"),
+        title: Text('Popular Movies'),
       ),
       body: Container(
         child: Consumer<HomeViewModel>(builder: (context, _viewModel, child) {
@@ -43,7 +43,7 @@ class _MovieListPageState extends State<MovieListPage> {
               itemBuilder: (context, index) {
                 return ListTile(
                     onTap: () {
-                      Get.toNamed("/movie-details");
+                      Get.toNamed('/movie-details');
                     },
                     title: Text(_viewModel.getMovieList()[index].title));
               },

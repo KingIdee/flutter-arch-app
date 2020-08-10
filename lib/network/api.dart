@@ -21,9 +21,9 @@ class API {
       // to prevent other request enter this interceptor.
       defaultDio.interceptors.requestLock.lock();
       // We use a new Dio(to avoid dead lock) instance to request token.
-      Response response = await tokenDio.get("/token");
+      Response response = await tokenDio.get('/token');
       //Set the token to headers
-      options.headers["token"] = response.data["data"]["token"];
+      options.headers['token'] = response.data['data']['token'];
       defaultDio.interceptors.requestLock.unlock();
       return options; //continue
     });
@@ -31,6 +31,6 @@ class API {
 
   Future<Response> fetchPopularMovies() async {
     return await _dio.get(
-        "https://api.themoviedb.org/3/movie/popular?api_key=78672b9eec5df84f1a4f9ae81fa31d59");
+        'https://api.themoviedb.org/3/movie/popular?api_key=78672b9eec5df84f1a4f9ae81fa31d59');
   }
 }
